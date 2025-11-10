@@ -25,7 +25,7 @@ COPY alembic ./alembic
 COPY .env ./
 
 # ---- Expose FastAPI port ----
-EXPOSE 5000
+EXPOSE 80
 
 # ---- Run FastAPI using Uvicorn ----
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "5000"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]

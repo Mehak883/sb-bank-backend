@@ -15,3 +15,4 @@ def test_user():
     assert response.status_code == 200
     assert response.json() == {
         "message": "You are very welcome, john.doe@example.com!"}
+
