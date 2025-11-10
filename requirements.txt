@@ -7,3 +7,4 @@ python-dotenv==1.0.1
 SQLAlchemy==2.0.27
 uvicorn==0.27.1
 plaid-python==23.0.0
+psycopg2-binary==2.9.9

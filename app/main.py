@@ -5,7 +5,8 @@ from fastapi_sso.sso.base import OpenID
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
-from .database import engine, Base
+
+# from .database import engine, Base
 from .routers import user, auth, data, item, transaction, account, category, goal, budget
 from .security import get_logged_user
 
@@ -47,7 +48,13 @@ app.include_router(account.router)
 app.include_router(category.router)
 app.include_router(goal.router)
 app.include_router(budget.router)
-Base.metadata.create_all(bind=engine)
+
+
+# if engine:
+#     Base.metadata.create_all(bind=engine)
+# else:
+#     print("⚠️ Skipping database initialization (NO-DB mode).")
+
 
 
 @app.get("/")
