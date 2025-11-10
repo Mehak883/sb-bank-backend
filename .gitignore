@@ -4,7 +4,7 @@
 # Environment file
 .venv/
 venv/
-
+.env/
 # Python client cache
 __pycache__/
 .pytest_cache/
