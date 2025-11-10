@@ -8,3 +8,6 @@ SQLAlchemy==2.0.27
 uvicorn==0.27.1
 plaid-python==23.0.0
 psycopg2-binary==2.9.9
+pytest-cov==4.1.0
+httpx==0.26.0
+starlette==0.36.3

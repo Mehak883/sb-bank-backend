@@ -1,48 +1,21 @@
-import os
-import pytest
-
+# app/tests/overrides.py
 from fastapi import Depends
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.pool import StaticPool
+from fastapi_sso.sso.base import OpenID
 from sqlalchemy.orm import Session
 
+# ---- Dummy logged-in user override ----
+def get_logged_user_override() -> OpenID:
+    """Return a fake OpenID user to bypass real login."""
+    return OpenID(
+        id="123",
+        email="john.doe@example.com",
+        display_name="John Doe",
+        provider="google",
+    )
 
-from ..security.get_db import get_db
-from .. import schemas
-
-
-async def get_logged_user_override(cookie: str = "", db: Session = Depends(get_db)):
-    # Return user openID
-    return schemas.User(**{
-        "id": 1,
-        "externalId": "123",
-        "email": "john.doe@example.com",
-        "first_name": "John",
-        "last_name": "Doe",
-        "picture": "https://example.com/john.doe.jpg",
-        "provider": "google",
-        "language": "en",
-        "darkMode": False,
-    })
-
-
-SQLALCHEMY_DATABASE_URL = os.environ.get("DATABASE_URL")
-
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL,
-    connect_args={"check_same_thread": False},
-    poolclass=StaticPool,
-)
-
-TestingSessionLocal = sessionmaker(
-    autocommit=False,
-    autoflush=False,
-    bind=engine)
-
-def get_db_override():
-    try:
-        db = TestingSessionLocal()
-        yield db
-    finally:
-        db.close()
+# ---- Dummy database session override ----
+def get_db_override() -> Session:
+    """Return a fake DB session to bypass real database connection."""
+    class DummyDB:
+        def close(self): ...
+    yield DummyDB()
